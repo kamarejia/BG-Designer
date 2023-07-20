@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="menu-btn">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="sidebar">
+        <div class="title-container">
+            <i class="fas fa-chess-king" id="king"></i>
+            <h2>BG Designer</h2>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="active" onclick="moveToComponents()"><i class="fas fa-box"></i>コンポーネント</li>
+            <!-- <li><i class="fas fa-user"></i>プレイヤー</li> -->
+            <li onclick="moveToGameplay()"><i class="fas fa-play" ></i>ゲームプレイ</li>
+            <li class="help"><i class="fas fa-question"></i>ヘルプ</li>
+        </ul>
+    </div>
+    <div class="comp-board-container" id="comp-board-container">
+        <div class="comp-board" id="template-board">
+            <div class="card-title"><h2>Card Title</h2></div>
+            
+            <div class="upper-section">
+    
+                <div class="appearance-num-settings">
+                    <div class="appearance-box">
+                        <div class="front-appearance">
+                            <h3>Front</h3>
+                            <div class="front-app-elem"></div>
+                            
+                        </div>
+                        <div class="back-appearance">
+                            <h3>Back</h3>
+                            <div class="back-app-elem"></div>
+                        </div>
+                    </div>
+                    <div class="card-num">×20</div>
+                </div>
+    
+                <div class="size-color-box">
+                    <div class="size-settings">
+                        <h3>Size</h3>
+                        <div class="front-size-box">Width:20px</div>
+                        <div class="back-size-box">Height:60px</div>
+                    </div>
+        
+                    <div class="color-settings">
+                        <h3>Color</h3>
+                        <div class="font-color-box">Text:white</div>
+                        <div class="front-color-box">Front:black</div>
+                        <div class="back-color-box">Back:red</div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="middle-section">
+                <div class="contents">
+                    <h3>Contents</h3>
+                    <p>山札から3枚のカードをひき、任意の1枚を手札と交換できる。</p>
+                </div>
+                <div class="image-settings">
+                    <h3>Image</h3>
+                    <div class="front-image-box">Front:No data</div>
+                    <div class="back-image-box">Back:No data</div>
+                </div>
+            </div>
+    
+            <div class="lower-section">
+                <div class="comp-copy"></div>
+                <!-- <div class="comp-edit"></div> -->
+                <div class="comp-del"></div>
+            </div>
+            
+        </div>
+
+        <div class="comp-board" id="input-board">
+            <div class="card-title"><input type="text" id="title" name="title" maxlength="20" placeholder="Card Title"></div>
+            
+            <div class="upper-section">
+                <div class="appearance-num-settings">
+                    <div class="appearance-box">
+                        <div class="front-appearance">
+                            <h3>Front</h3>
+                            <div class="front-app-elem"></div>
+                        </div>
+                        <div class="back-appearance">
+                            <h3>Back</h3>
+                            <div class="back-app-elem"></div>
+                        </div>
+                    </div>
+                    <div class="card-num">×<input type="text" id="card-num" name="card-num" placeholder="number of cards" value=1></div>
+                </div>
+    
+                <div class="size-color-box">
+                    <div class="size-settings">
+                        <h3>Size</h3>
+                        <div class="front-size-box">Width:<input type="text" id="width" name="width" placeholder="x" value=50>px</div>
+                        <div class="back-size-box">Height:<input type="text" id="height" name="height" placeholder="y" value=50>px</div>
+                    </div>
+                    <div class="color-settings">
+                        <h3>Color</h3>
+                        <div class="font-color-box">Text:<input type="color" id="textcolor" name="textcolor"></div>
+                        <div class="front-color-box">Front:<input type="color" id="frontcolor" name="frontcolor"></div>
+                        <div class="back-color-box">Back:<input type="color" id="backcolor" name="backcolor"></div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="middle-section">
+                <div class="contents">
+                    <h3>Contents</h3>
+                    <textarea id="contents" name="contents" maxlength="100" rows="5" style="resize: none;" placeholder="カードの効果"></textarea>
+                </div>
+                <div class="image-settings">
+                    <h3>Image</h3>
+                    <div class="front-image-box"><label class="front-img-btn"><input type="file" id="frontimage" accept="image/*" >Front Image</label></div>
+                    <div class="back-image-box"><label class="back-img-btn"><input type="file" id="backimage" accept="image/*" >Back Image</label></div>
+                </div>
+            </div>
+    
+            <div class="lower-section">
+                <button class="create-button" onclick="createCard()">Create</button>
+            </div>
+            
+        </div>
+
+
+        <div class="icon-container">
+            <div class="add-icon" onclick="toggleDisplayInputBoard(1)"></div>
+            <div class="save-icon" onclick="openUploadModal()"></div>
+            <div class="load-icon" onclick="openDownloadModal()"></div>
+        </div>
+
+        <div id="downloadModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeDownloadModal()">&times;</span>
+                <p>Select a file</p>
+                <select id="file-select">
+                </select>
+                <button id="confirm-btn" onclick="confirmSelection()">Confirm</button>
+                <button id="cancel-btn" onclick="closeDownloadModal()">Cancel</button>
+            </div>
+        </div>
+
+        <div id="uploadModal"class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeUploadModal()">&times;</span>
+                <p>Name the file</p>
+                <input type="text" id="name-file" placeholder="Just enter file name">
+                <button id="confirm-btn" onclick="applyFileUpload()">Apply</button>
+                <button id="cancel-btn" onclick="closeUploadModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="game-board-container" class="game-board-container">
+        <div class="game-board" id="game-board" >
+        </div>
+        <div id="sideModal" class="sideModal">
+            <h2 id="sideModal-title"></h2>
+            <p id="sideModal-contents"></p>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
